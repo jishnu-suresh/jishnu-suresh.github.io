@@ -49,7 +49,7 @@ body {
 	margin-right:20%;*/
 	width: 980px;/*suitable for mobile devices*/
 	margin: auto; /*suitable for mobile devices*/
-	font-size: 150%;
+	font-size: 100%;
     font-family: Garamond;
      }
 /*In general div*/
@@ -63,7 +63,7 @@ div {
     transition: 0.3s;
 	text-align: justify;
     text-justify: inter-word;
-	font-size: 100%;
+	font-size: 120%;
     font-family: Garamond;
 }
 /*Footer*/
