@@ -2,7 +2,7 @@
 h1 {
      color: #200568; /*#17202A ;*/
      font-size: 150%;
-     font-family: Arial
+     font-family: Garamond
      ;/*"Monaco", Monaco, Monaco;*/
      text-align: left;
 	 background: inherit; /*#fafafa;*/
@@ -11,21 +11,21 @@ h1 {
 h2 {
      color: #661C02;
      font-size: 100%;
-     font-family: Arial;/*"Monaco", Monaco, Monaco;*/
+     font-family: Garamond;/*"Monaco", Monaco, Monaco;*/
      text-align: left;
    }
 
 h4 {
         color: #06A10D;
         font-size: 100%;
-        font-family: Arial;/*"Monaco", Monaco, Monaco;*/
+        font-family: Garamond;/*"Monaco", Monaco, Monaco;*/
         text-align: left;
       }
 
 h5 {
         color: #06A10D;
         font-size: 50%;
-        font-family: Arial;/*"Monaco", Monaco, Monaco;*/
+        font-family: Garamond;/*"Monaco", Monaco, Monaco;*/
         text-align: right;
       }
 
@@ -33,7 +33,7 @@ h5 {
 h3 {
      color:  #661C02;
      font-size: 100%;
-     font-family:Arial ;/*"Monaco", Monaco, Monaco;*/
+     font-family:Garamond ;/*"Monaco", Monaco, Monaco;*/
      text-align: center;
    }
 body {
@@ -50,7 +50,7 @@ body {
 	width: 980px;/*suitable for mobile devices*/
 	margin: auto; /*suitable for mobile devices*/
 	font-size: 100%;
-    font-family: Arial;
+    font-family: Garamond;
      }
 /*In general div*/
 div {
@@ -64,7 +64,7 @@ div {
 	text-align: justify;
     text-justify: inter-word;
 	font-size: 100%;
-    font-family: Arial;
+    font-family: Garamond;
 }
 /*Footer*/
 .footer {
