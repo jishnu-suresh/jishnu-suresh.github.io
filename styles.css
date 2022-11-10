@@ -2,7 +2,7 @@
 h1 {
      color: #200568; /*#17202A ;*/
      font-size: 150%;
-     font-family: Times New Roman
+     font-family: Monaco
      ;/*"Monaco", Monaco, Monaco;*/
      text-align: left;
 	 background: inherit; /*#fafafa;*/
@@ -11,7 +11,7 @@ h1 {
 h2 {
      color: #661C02;
      font-size: 100%;
-     font-family: Times New Roman;/*"Monaco", Monaco, Monaco;*/
+     font-family: Monaco;/*"Monaco", Monaco, Monaco;*/
      text-align: left;
    }
 
