@@ -142,21 +142,21 @@ div {
 
 /* default button */
 .btn {
-	  	color:#661C02;
+	  	color:#004952;
 		outline: none;
        }
 /* visited button */
 .btn:visited {
-	    color:#661C02;
+	    color:#004952;
 	   }
 /* hover button */
 .btn:hover {background: #eee;
-	    color:green;
+	    color:#04a9bf;
 	   }
 /* focus button */
 .btn.focus {
 	    background: #FFFFFF;
-	    color:green;
+	    color:#04a9bf;
 		outline: none;
 	   }
 /* active button
@@ -181,7 +181,7 @@ div {
     cursor: pointer;
     display: inline-block;
 	float: center;
-	color:#661C02;
+	color:#004952;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -191,7 +191,7 @@ div {
 }
 /* hover button */
 .dropbtn:hover {background: #eee;
-	    color:green;
+	    color:#04a9bf;
 		}
 /*Remove the outline specifically for mozilla*/
 .dropbtn::-moz-focus-inner {
@@ -202,7 +202,7 @@ div {
     display: none;
     position: absolute;
     background: #f1f1f1;
-	color: green;
+	color: #04a9bf;
     min-width: 160px;
     box-shadow:  0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -211,14 +211,14 @@ div {
 
 /* Links inside the dropdown */
 .dropdown-content a {
-    color: #661C02;
+    color: #004952;
     padding: 12px 16px;
     text-decoration: none;
     display: inline-block;
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #eee; color: green;}
+.dropdown-content a:hover {background-color: #eee; color: #04a9bf;}
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {display: block;}
