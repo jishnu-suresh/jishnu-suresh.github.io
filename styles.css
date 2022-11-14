@@ -1,6 +1,6 @@
 /* h1*/
 h1 {
-     color: #200568; /*#17202A ;*/
+     color: #340359; /*#17202A ;*/
      font-size: 150%;
      font-family: Garamond
      ;/*"Monaco", Monaco, Monaco;*/
@@ -9,21 +9,21 @@ h1 {
    }
 
 h2 {
-     color: #661C02;
+     color: #03403d;
      font-size: 100%;
      font-family: Garamond;/*"Monaco", Monaco, Monaco;*/
      text-align: left;
    }
 
 h4 {
-        color: #06A10D;
+        color: #03403d;
         font-size: 100%;
         font-family: Garamond;/*"Monaco", Monaco, Monaco;*/
         text-align: left;
       }
 
 h5 {
-        color: #06A10D;
+        color: #03403d;
         font-size: 50%;
         font-family: Garamond;/*"Monaco", Monaco, Monaco;*/
         text-align: right;
@@ -31,7 +31,7 @@ h5 {
 
 
 h3 {
-     color:  #661C02;
+     color:  #03403d;
      font-size: 100%;
      font-family:Garamond ;/*"Monaco", Monaco, Monaco;*/
      text-align: center;
