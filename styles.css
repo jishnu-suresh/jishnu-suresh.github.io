@@ -283,6 +283,20 @@ a:hover { border-bottom-color: var(--accent); }
   padding: 4px;
 }
 
+.code-sub {
+  list-style: disc;
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: var(--muted);
+  font-size: 0.93rem;
+}
+
+.doi-badge {
+  height: 18px;
+  vertical-align: middle;
+  border-bottom: none;
+}
+
 /* ---- Contact group photo ---- */
 .contact-photo {
   display: block;
