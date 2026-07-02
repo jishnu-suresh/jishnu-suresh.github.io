@@ -16,7 +16,6 @@
   <meta name="twitter:card" content="summary">
 
   <title>Jishnu Suresh</title>
-  <link rel="icon" type="image/png" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
@@ -119,7 +118,7 @@
 <section id="research" class="tabcontent">
   <h2>My research interests</h2>
   <p>
-  My primary research interest at present is searches for stochastic gravitational wave background, superposition of sources too weak to detect individually, using ground-based interferometers.
+  My primary research interest at present is searches for gravitational wave background, superposition of sources too weak to detect individually, using ground-based interferometers.
   </p>
   <p>Topics of my interest include:</p>
   <ul class="interests">
@@ -136,6 +135,24 @@
         <li><a href="https://en.wikipedia.org/wiki/Black_hole_thermodynamics">Black hole thermodynamics</a></li>
         <li><a href="https://en.wikipedia.org/wiki/Geometrothermodynamics">Geometrothermodynamics</a></li>
       </ul>
+    </li>
+  </ul>
+
+  <h2>Codes and data</h2>
+  <ul class="codes">
+    <li class="code-item">
+      <img src="https://raw.githubusercontent.com/jishnu-suresh/PyStoch/main/docs/_static/pystoch_logo.png" class="code-logo" alt="PyStoch logo">
+      <div>
+        <strong><a href="https://pystoch.readthedocs.io/en/latest/">PyStoch</a></strong> &mdash;
+        Co-developed the GWB map-making pipeline. Maintaining the pipeline.
+        <a href="https://pypi.org/project/pystoch/">[PyPI]</a>
+        <a href="https://github.com/jishnu-suresh/PyStoch">[GitHub]</a>
+      </div>
+    </li>
+    <li class="code-item">
+      <div>
+        <strong>Folded data set</strong> &mdash; details coming soon.
+      </div>
     </li>
   </ul>
 </section>
@@ -237,13 +254,31 @@
     return a;
   }
 
+  function initials(first) {
+    return first ? first.split(/[\s.]+/).filter(Boolean).map(function (n) { return n[0] + '.'; }).join(' ') + ' ' : '';
+  }
+
   function makeItem(m, withDate) {
     var li = document.createElement('li');
-    var authors = fmtAuthors(m);
-    if (m.first_author && m.first_author.last_name === 'Suresh') {
-      var b = document.createElement('strong'); b.textContent = authors; li.appendChild(b);
+    if (m.authors && m.authors.length) {
+      // Full author list (used for my publications)
+      m.authors.forEach(function (a, i) {
+        var parts = (a.full_name || '').split(', ');
+        var disp = initials(parts[1]) + parts[0];
+        if (i) li.appendChild(document.createTextNode(', '));
+        if (parts[0] === 'Suresh') {
+          var b = document.createElement('strong'); b.textContent = disp; li.appendChild(b);
+        } else {
+          li.appendChild(document.createTextNode(disp));
+        }
+      });
     } else {
-      li.appendChild(document.createTextNode(authors));
+      var authors = fmtAuthors(m);
+      if (m.first_author && m.first_author.last_name === 'Suresh') {
+        var b2 = document.createElement('strong'); b2.textContent = authors; li.appendChild(b2);
+      } else {
+        li.appendChild(document.createTextNode(authors));
+      }
     }
     li.appendChild(document.createTextNode(', "'));
     var t = document.createElement('a');
@@ -271,7 +306,7 @@
     return li;
   }
 
-  fetch(BASE + '&size=8' + FIELDS + '&q=a%20Jishnu.Suresh.1%20and%20ac%201-%3E10')
+  fetch(BASE + '&size=8' + FIELDS + ',authors.full_name&q=a%20Jishnu.Suresh.1%20and%20ac%201-%3E10')
     .then(function (r) { return r.json(); })
     .then(function (data) {
       var hits = (data.hits || {}).hits || [];
