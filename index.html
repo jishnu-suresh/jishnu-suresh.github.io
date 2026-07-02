@@ -113,7 +113,6 @@
 
   <p>You can find the details in my <a href="Jishnu_CV.pdf">CV</a></p>
 
-  <img src="world_mine.jpg" class="worldmap" alt="world">
 </section>
 
 <!-- Research -->
@@ -148,7 +147,6 @@
   I am a Henri Poincaré Fellow at the Observatoire de la Côte d'Azur in the ARTEMIS research group led by Nelson Christensen. The ARTEMIS group has been contributing a significant effort to the search for gravitational wave background (GWB) and the publication of its results. Furthermore, the group actively works on developing and maintaining different analysis pipelines used in different LIGO-Virgo-KAGRA group.
   For more details: <a href="https://artemis.oca.eu/fr/accueil-artemis">ARTEMIS</a>
   </p>
-  <img src="smiley.jpeg" class="group-photo" alt="ARTEMIS group">
 </section>
 
 <!-- Publications -->
@@ -169,6 +167,12 @@
     <li>D. Agarwal, <strong>J. Suresh</strong>, S. Mitra, A. Ain, "Angular power spectra of anisotropic stochastic gravitational wave background: developing statistical methods and analyzing data from ground-based detectors", Phys.Rev.D 108 (2023) 2, 023011, <a href="https://arxiv.org/abs/2302.12516">[arXiv:2302.12516]</a>.</li>
     <li>F. De Lillo, <strong>J. Suresh</strong>, A. Depasse, M. Sieniawska, A. L. Miller and G. Bruno, "Probing Ensemble Properties of Vortex-avalanche Pulsar Glitches with a Stochastic Gravitational-Wave Background Search", Phys.Rev.D 107 (2023) 10, 102001, <a href="https://arxiv.org/abs/2211.16857">[arXiv:2211.16857]</a>.</li>
   </ol>
+
+  <div id="cites-block" hidden>
+  <h2>Recent citations</h2>
+  <p class="pubs-note">Latest papers citing my work (excluding self-citations), from INSPIRE-HEP.</p>
+  <ol class="pubs" id="cites-list"></ol>
+  </div>
 </section>
 
 <!-- Contact -->
@@ -181,6 +185,8 @@
 
   <p><em>E-mail:</em><br>
   jishnu.suresh'at'oca.eu</p>
+
+  <img src="smiley.jpeg" class="contact-photo" alt="ARTEMIS group">
 </section>
 
 </main>
@@ -212,78 +218,85 @@
 </script>
 
 <script>
-/* Live publications from INSPIRE-HEP. On failure, the static list above stays. */
+/* Live publications + recent citations from INSPIRE-HEP. On failure, the static list stays. */
 (function () {
-  var API = 'https://inspirehep.net/api/literature?sort=mostrecent&size=8' +
-    '&fields=titles,arxiv_eprints,publication_info,author_count,collaborations,first_author' +
-    '&q=a%20Jishnu.Suresh.1%20and%20ac%201-%3E10';
+  var BASE = 'https://inspirehep.net/api/literature?sort=mostrecent';
+  var FIELDS = '&fields=titles,arxiv_eprints,publication_info,author_count,collaborations,first_author,earliest_date';
 
-  fetch(API).then(function (r) { return r.json(); }).then(function (data) {
-    var hits = (data.hits || {}).hits || [];
-    if (!hits.length) return;
+  function fmtAuthors(m) {
+    if (m.collaborations && m.collaborations.length) {
+      return m.collaborations.map(function (c) { return c.value; }).join(', ') +
+        (m.collaborations.length > 1 ? ' Collaborations' : ' Collaboration');
+    }
+    if (!m.first_author) return '';
+    var fa = m.first_author;
+    var a = (fa.first_name && fa.first_name !== 'None'
+      ? fa.first_name.split(/[\s.]+/).filter(Boolean).map(function (n) { return n[0] + '.'; }).join(' ') + ' '
+      : '') + (fa.last_name || fa.full_name);
+    if (m.author_count > 1) a += ' et al.';
+    return a;
+  }
 
-    var list = document.getElementById('pubs-list');
-    list.innerHTML = '';
+  function makeItem(m, withDate) {
+    var li = document.createElement('li');
+    var authors = fmtAuthors(m);
+    if (m.first_author && m.first_author.last_name === 'Suresh') {
+      var b = document.createElement('strong'); b.textContent = authors; li.appendChild(b);
+    } else {
+      li.appendChild(document.createTextNode(authors));
+    }
+    li.appendChild(document.createTextNode(', "'));
+    var t = document.createElement('a');
+    t.href = 'https://inspirehep.net/literature/' + m.control_number;
+    t.textContent = (m.titles && m.titles[0]) ? m.titles[0].title : 'Untitled';
+    li.appendChild(t);
+    li.appendChild(document.createTextNode('"'));
+    var pi = (m.publication_info || []).filter(function (p) { return p.journal_title; })[0];
+    if (pi) {
+      li.appendChild(document.createTextNode(', ' + pi.journal_title +
+        (pi.journal_volume ? ' ' + pi.journal_volume : '') +
+        (pi.year ? ' (' + pi.year + ')' : '') +
+        (pi.artid ? ', ' + pi.artid : (pi.page_start ? ', ' + pi.page_start : ''))));
+    } else if (withDate && m.earliest_date) {
+      li.appendChild(document.createTextNode(' (' + m.earliest_date.slice(0, 7) + ')'));
+    }
+    if (m.arxiv_eprints && m.arxiv_eprints.length) {
+      li.appendChild(document.createTextNode(' '));
+      var ax = document.createElement('a');
+      ax.href = 'https://arxiv.org/abs/' + m.arxiv_eprints[0].value;
+      ax.textContent = '[arXiv:' + m.arxiv_eprints[0].value + ']';
+      li.appendChild(ax);
+    }
+    li.appendChild(document.createTextNode('.'));
+    return li;
+  }
 
-    hits.forEach(function (h) {
-      var m = h.metadata;
-      var li = document.createElement('li');
+  fetch(BASE + '&size=8' + FIELDS + '&q=a%20Jishnu.Suresh.1%20and%20ac%201-%3E10')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var hits = (data.hits || {}).hits || [];
+      if (!hits.length) return;
 
-      // Authors
-      var authors;
-      if (m.collaborations && m.collaborations.length) {
-        authors = m.collaborations.map(function (c) { return c.value; }).join(', ') +
-          (m.collaborations.length > 1 ? ' Collaborations' : ' Collaboration');
-      } else if (m.first_author) {
-        var fa = m.first_author;
-        authors = (fa.first_name && fa.first_name !== 'None'
-          ? fa.first_name.split(/[\s.]+/).filter(Boolean).map(function (n) { return n[0] + '.'; }).join(' ') + ' '
-          : '') + (fa.last_name || fa.full_name);
-        if (m.author_count > 1) authors += ' et al.';
-      } else {
-        authors = '';
-      }
-      var authSpan = document.createElement('span');
-      if (m.first_author && m.first_author.last_name === 'Suresh') {
-        var b = document.createElement('strong'); b.textContent = authors; authSpan.appendChild(b);
-      } else {
-        authSpan.textContent = authors;
-      }
-      li.appendChild(authSpan);
-      li.appendChild(document.createTextNode(', "'));
+      var list = document.getElementById('pubs-list');
+      list.innerHTML = '';
+      hits.forEach(function (h) { list.appendChild(makeItem(h.metadata, false)); });
+      document.getElementById('pubs-note').hidden = false;
 
-      // Title -> INSPIRE record
-      var t = document.createElement('a');
-      t.href = 'https://inspirehep.net/literature/' + m.control_number;
-      t.textContent = (m.titles && m.titles[0]) ? m.titles[0].title : 'Untitled';
-      li.appendChild(t);
-      li.appendChild(document.createTextNode('"'));
-
-      // Journal reference
-      var pi = (m.publication_info || []).filter(function (p) { return p.journal_title; })[0];
-      if (pi) {
-        var ref = ', ' + pi.journal_title +
-          (pi.journal_volume ? ' ' + pi.journal_volume : '') +
-          (pi.year ? ' (' + pi.year + ')' : '') +
-          (pi.artid ? ', ' + pi.artid : (pi.page_start ? ', ' + pi.page_start : ''));
-        li.appendChild(document.createTextNode(ref));
-      }
-
-      // arXiv link
-      if (m.arxiv_eprints && m.arxiv_eprints.length) {
-        li.appendChild(document.createTextNode(' '));
-        var ax = document.createElement('a');
-        ax.href = 'https://arxiv.org/abs/' + m.arxiv_eprints[0].value;
-        ax.textContent = '[arXiv:' + m.arxiv_eprints[0].value + ']';
-        li.appendChild(ax);
-      }
-      li.appendChild(document.createTextNode('.'));
-
-      list.appendChild(li);
-    });
-
-    document.getElementById('pubs-note').hidden = false;
-  }).catch(function () { /* keep static list */ });
+      // Recent citations to these papers, excluding self-citations
+      var recids = hits.slice(0, 6).map(function (h) { return h.metadata.control_number; });
+      var cq = '(' + recids.map(function (r) { return 'refersto%3Arecid%3A' + r; }).join('%20or%20') +
+        ')%20and%20not%20a%20Jishnu.Suresh.1';
+      return fetch(BASE + '&size=5' + FIELDS + '&q=' + cq)
+        .then(function (r) { return r.json(); })
+        .then(function (cd) {
+          var chits = (cd.hits || {}).hits || [];
+          if (!chits.length) return;
+          var clist = document.getElementById('cites-list');
+          chits.forEach(function (h) { clist.appendChild(makeItem(h.metadata, true)); });
+          document.getElementById('cites-block').hidden = false;
+        });
+    })
+    .catch(function () { /* keep static content */ });
 })();
 </script>
 
