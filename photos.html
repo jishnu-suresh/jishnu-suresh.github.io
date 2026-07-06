@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Photography by Jishnu Suresh.">
+  <meta name="color-scheme" content="light dark">
+  <title>Photography · Jishnu Suresh</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..700;1,400&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="site-header">
+  <h1 class="site-title">Jishnu Suresh</h1>
+  <p class="site-subtitle">Henri Poincaré Fellow · Observatoire de la Côte d'Azur</p>
+</header>
+
+<nav class="tabs" aria-label="Main navigation">
+  <a class="tab-btn" href="index.html#about">About me</a>
+  <a class="tab-btn" href="index.html#research">Research</a>
+  <a class="tab-btn" href="index.html#codes">Codes and data</a>
+  <a class="tab-btn" href="index.html#publications">Publications</a>
+  <a class="tab-btn active" href="photos.html">Photography</a>
+  <a class="tab-btn" href="index.html#contact">Contact</a>
+</nav>
+
+<main>
+<section class="tabcontent visible">
+  <div class="gallery" id="gallery"></div>
+</section>
+</main>
+
+<footer class="site-footer">
+  &copy; Jishnu Suresh &middot; All photographs are my own.
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" hidden>
+  <button class="lb-btn lb-close" aria-label="Close">&times;</button>
+  <button class="lb-btn lb-prev" aria-label="Previous">&#8249;</button>
+  <img id="lb-img" src="" alt="Photograph by Jishnu Suresh">
+  <button class="lb-btn lb-next" aria-label="Next">&#8250;</button>
+</div>
+
+<script>
+(function () {
+  var N = 41;
+  var names = [];
+  for (var i = 1; i <= N; i++) names.push('p' + String(i).padStart(2, '0') + '.jpg');
+
+  var gallery = document.getElementById('gallery');
+  names.forEach(function (n, idx) {
+    var img = document.createElement('img');
+    img.src = 'photos/thumbs/' + n;
+    img.loading = 'lazy';
+    img.alt = 'Photograph by Jishnu Suresh';
+    img.className = 'g-thumb';
+    img.addEventListener('click', function () { open(idx); });
+    gallery.appendChild(img);
+  });
+
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lb-img');
+  var current = 0;
+
+  function open(i) {
+    current = i;
+    lbImg.src = 'photos/full/' + names[current];
+    lb.hidden = false;
+    document.body.style.overflow = 'hidden';
+  }
+  function close() {
+    lb.hidden = true;
+    lbImg.src = '';
+    document.body.style.overflow = '';
+  }
+  function step(d) {
+    current = (current + d + N) % N;
+    lbImg.src = 'photos/full/' + names[current];
+  }
+
+  lb.querySelector('.lb-close').addEventListener('click', close);
+  lb.querySelector('.lb-prev').addEventListener('click', function (e) { e.stopPropagation(); step(-1); });
+  lb.querySelector('.lb-next').addEventListener('click', function (e) { e.stopPropagation(); step(1); });
+  lb.addEventListener('click', function (e) { if (e.target === lb) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (lb.hidden) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') step(-1);
+    if (e.key === 'ArrowRight') step(1);
+  });
+})();
+</script>
+
+</body>
+</html>
