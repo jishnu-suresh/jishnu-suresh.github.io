@@ -325,13 +325,15 @@ a:hover { border-bottom-color: var(--accent); }
 
 /* ---- Photo gallery ---- */
 .gallery {
-  columns: 3 240px;
-  column-gap: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
 }
 
 .g-thumb {
   width: 100%;
-  margin-bottom: 12px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: 8px;
   cursor: pointer;
   display: block;
@@ -352,6 +354,8 @@ a:hover { border-bottom-color: var(--accent); }
   align-items: center;
   justify-content: center;
 }
+
+.lightbox[hidden] { display: none; }
 
 .lightbox img {
   max-width: 92vw;
